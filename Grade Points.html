@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            GRADE CALCULATOR
+        </title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="header">
+            <div id="icon" style="display:grid;grid-template-columns:50% 30% 20%;margin-top:20px;">
+                <div>
+                    <span style="font-size:33px;color:rgb(0, 0, 123);">GRADE CALCULATOR</span>
+                    <br>Desgined by 
+                    <span style="color:brown;font-family:'Times New Roman', Times, serif;font-weight:28px;">Vivek</span> CSE
+                </div>
+                <div class="yeartitle"><span>E1S1</span></div>
+                <div><a href="https://www.youtube.com/channel/UC3yx9Mx18iJrs6q_RLc7vEg" target="_blank"><span><i class="fa fa-youtube" style="font-size:3.2em;margin:4px auto"></i></span></a></div>
+            </div>
+        </div>
+
+
+
+        <span class="branchSelect">Select Branch</span>
+        <select id="branch" class="branchoption" onchange="createTable()">
+            <option value="0">CSE</option>
+            <option value="1">ECE</option>
+            <option value="2">EEE</option>
+            <option value="3">CIVIL</option>
+            <option value="4">MECH</option>
+        </select>
+        <div id="container">
+            <div id="table">
+                <table id="grades_tab"></table>
+            </div>
+            <div>
+                <div id="gradetitle">Your Grade</div>
+                <div id="totalgrade"></div>
+            </div>
+        </div>
+        <div id="btn" class="btn">Click To Know</div>
+        <div id="download" class="btn">Download</div>
+        
+    </body>
+</html>
+<style>
+    *{
+        padding:0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .header{
+        text-align: center;
+        margin:15px;
+    }
+
+    #container{
+        font-size:1.2em;
+    }
+    
+    body{
+        min-width:720px;
+        max-width:720px;
+        width:720px;
+        margin-left:20px;
+        margin-right:20px;
+    }
+    table{
+        border:2px black groove;
+        border-collapse: collapse;
+        text-align: center;
+        width:100%;
+        box-shadow:black 4px 4px 5px;
+    }
+    th,td,tr{
+        border:2px black inset;
+        border-radius:5px;
+    }
+    th{
+        /* background-image:linear-gradient(0deg,rgb(27, 255, 27),rgb(179, 255, 179)); */
+        background-color:rgb(255,197,98);
+        box-shadow:rgb(0, 0, 0) 2px 2px 2px;
+    }
+    td{
+        background-color: #D0EAE9;
+
+    }
+    td:nth-child1(even){
+        /* background-image:linear-gradient(0deg,rgb(40, 115, 255),rgb(112, 223, 248,0.9)); */
+        /* background-color:rgb(21,152,147); */
+        background-color: #D0EAE9;
+    }
+    td:nth-child1(odd){
+        background-color:#aaa;
+        /* color:whitesmoke; */
+    }
+
+    #container{
+        display:grid;
+        grid-template-columns:80% 20%;
+        width:auto;
+        background-image:linear-gradient();
+    }
+    td > select{
+        border:none;
+        width: 100%;
+    }
+
+    .btn{
+        text-align: center;
+        font-weight:600;
+        margin:20px auto;
+        /* position: absolute; */
+        left:55%;
+        /* transform:-50px; */
+        border:2px black solid;
+        height:30px;
+        width:120px;
+        border-radius:5px;
+        background-color:rgb(172, 252, 160); 
+        /* background-image:linear-gradient(4deg,rgb(255, 197, 49,0.8),rgba(233, 197, 197, 0.8)); */
+        transition:0.8s;
+        box-shadow:black 2px 2px 4px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        text-shadow:rgb(255, 255, 255,0.8) 1px 1px 1px;
+        cursor:pointer;
+        font-family: cursive;
+
+    }
+    .btn:hover{
+        cursor: pointer;
+        width:180px;
+        border-radius: 10px;
+        background-color:rgb(172, 252, 160);
+        /* background-image:linear-gradient(0deg,rgb(255, 197, 49,0.8),rgba(255, 157, 157, 0.909)); */
+    }
+
+    #gradetitle{
+        background-image:linear-gradient(0deg,rgb(35, 112, 255),rgb(112, 223, 248));
+        border:2px black solid;
+        text-align: center;
+        box-shadow:black 2px 2px 5px;
+    }
+    #totalgrade{
+        /* background-image:linear-gradient(rgb(255, 189, 189),rgb(255, 166, 0)); */
+        /* background-image:linear-gradient(hsl(188, 56%, 33%),hsl(200, 40%, 80%),hsl(188, 56%, 33%)); */
+        background-color:#f8f8f2;
+        color:black;
+        font-size:3rem;
+        border:2px black solid;
+        text-align: center;
+        height:88.5%;
+        box-shadow:black 2px 2px 8px;
+    }
+    .yeartitle{
+        color:white;
+        font-size:40px;
+        width:120px;
+        height:50px;
+        background:hsl(188, 56%, 33%);
+        box-shadow:2px 2px 2px black;
+        border:2px black solid;
+        border-radius:5px;
+        margin:6px auto;
+    }
+    .branchSelect{
+        background-color:rgb(182, 255, 198);
+        color:rgb(27, 24, 24);
+        font-weight:500;
+        font-size:20px;
+        border-radius:5px;
+        border:2px black groove;
+        box-shadow: black 2px 2px 2px;
+        padding:3px;
+    }
+    .branchoption{
+        /* background-color:rgb(230, 203, 170); */
+        margin-bottom:4px;
+        height:32px;
+        width:100px;
+        padding:3px;
+        box-shadow: black 2px 2px 2px;
+        /* background-color:rgb(0, 102, 255); */
+        border:2px black solid;
+        border-radius:5px;
+        cursor:pointer;
+        /* background-color: blue; */
+    }
+</style>
+<script>
+    table = document.querySelector("#grades_tab");
+    input = `<select id="grades" onchange="cleargrade()">
+                <option value="">Select Grade</option>
+                <option value="10">Ex</option>
+                <option value="9">A</option>
+                <option value="8">B</option>
+                <option value="7">C</option>
+                <option value="6">D</option>
+                <option value="5">E</option>
+            </select>`;
+    subs = [
+        ["CLA","BEEE","PSPC","EGCD","ELCS","BEEEL","PSPCL","IC"],
+        ["DEMC","EP","ET","SS","PDS","EPL","ETL","PDSL","ILTA"],
+        ["DEMC","EP","PDS","FEE","EPL","FEEL","PDSL","HV"],
+        ["DEMC","EC","PDS","EGCD","ELCSL","ECL","PDSL","AR"],
+        ["DEMC","EP","BEEE","EC","ELCSL","WP","EPCL","BEEEL"]
+    ]
+    credits = [[4,4,4,2.5,2.5,1.5,1.5,0],
+                [4,4,4,4,3,1.5,1.5,1.5,1],
+                [ 4,4,4,4,1.5,1.5,1.5,0],
+                [4,3,3,2.5,2.5,1.5,1.5,0],
+                [4,4,4,3,2.5,1.5,1.5,1.5]
+];
+    sub_credits = [];
+    function create_Table(subs,credits){
+        table.innerHTML = `<thead><th>Subject Code</th><th>Credits</th><th>Grade</th></thead>`
+        for(let i=0;i<subs.length;i++){
+            let row = "<tr>";
+            row += `<td>${subs[i]}</td>`
+            row += `<td>${credits[i]}</td>`
+            row += `<td>${input}</td>`
+            row += "</tr>"
+            table.innerHTML += row;
+        }
+    }
+
+    btn = document.getElementById("btn");
+    btn.onclick = driver;
+
+    function getGrades(){
+        grades = document.querySelectorAll("#grades");
+        branch = document.getElementById('branch').value;
+        total = sum(credits[branch]);
+        console.log(total);
+        for(let i=0;i<grades.length;i++){
+            sub_credits[i] = ((credits[branch][i]/total)*parseInt(grades[i].value));
+        }
+        totalgrade = document.getElementById("totalgrade");
+        totalgrade.innerText = sum(sub_credits).toFixed(2);
+    }
+    function check(){
+        grades = document.querySelectorAll("#grades");
+        console.log(grades);
+        for(let i=0;i<grades.length;i++){
+            if(grades[i].value == ""){
+                return false
+            }
+        }
+        return true;
+    }
+
+    function createTable(){
+        let i = document.getElementById("branch").value
+        create_Table(subs[i],credits[i]);
+        totalgrade.innerText = "";
+
+    }
+
+    function cleargrade(){
+        totalgrade = document.getElementById("totalgrade");
+        totalgrade.innerText = "";
+    }
+    function sum(array){
+        let sum = 0;
+        for(let i=0;i<array.length;i++){
+            sum += array[i];
+        }
+        return sum;
+    }
+    create_Table(subs[0],credits[0]);
+    function driver(){
+        if(check()){
+            getGrades();
+        }
+        else{
+            totalgrade.innerText = "!!!";
+        }
+    }
+    function Download(){
+        print();
+        console.log("download executed");
+    }
+    download = document.getElementById("download");
+    console.log(download);
+    download.onclick = Download;
+    
+    
+</script>
