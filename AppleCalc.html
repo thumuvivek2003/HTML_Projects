@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <select id="theme">
+        <option value='Black'>Black</option>
+        <option value='White'>White</option>
+        <option value='Gray'>Gray</option>
+        <option value='Red'>Red</option>
+        <option value='Green'>Green</option>
+        <option value='Blue'>Blue</option>
+        <option value='Yellow'>Yellow</option>
+        <option value='Orange'>Orange</option>
+        <option value='Purple'>Purple</option>
+        <option value='Brown'>Brown</option>
+        <option value='Pink'>Pink</option>
+        <option value='Gold'>Gold</option>
+        <option value='Silver'>Silver</option>
+        <option value='Beige'>Beige</option>
+        <option value='Turquoise'>Turquoise</option>
+        <option value='Lavender'>Lavender</option>
+        <option value='Navy'>Navy</option>
+        <option value='Maroon'>Maroon</option>
+        <option value='Olive'>Olive</option>
+        <option value='Teal'>Teal</option>
+        <option value='Sky blue'>Sky blue</option>
+        <option value='Coral'>Coral</option>
+        <option value='Salmon'>Salmon</option>
+        <option value='Tan'>Tan</option>
+        <option value='Fuchsia'>Fuchsia</option>
+        <option value='Khaki'>Khaki</option>
+        <option value='Dark blue'>Dark blue</option>
+        <option value='Dark gray'>Dark gray</option>
+        <option value='Light blue'>Light blue</option>
+        <option value='Light gray'>Light gray</option>
+        <option value='Medium blue'>Medium blue</option>
+        <option value='Medium gray'>Medium gray</option>
+        <option value='Dark green'>Dark green</option>
+        <option value='Light green'>Light green</option>
+        <option value='Sea green'>Sea green</option>
+        <option value='Dark red'>Dark red</option>
+        <option value='Dark orange'>Dark orange</option>
+        <option value='Dark purple'>Dark purple</option>
+        <option value='Dark brown'>Dark brown</option>
+        <option value='Light yellow'>Light yellow</option>
+        <option value='Peach'>Peach</option>
+        <option value='Light pink'>Light pink</option>
+        <option value='Light purple'>Light purple</option>
+        <option value='Plum'>Plum</option>
+        <option value='Indigo'>Indigo</option>
+        <option value='Slate blue'>Slate blue</option>
+        <option value='Tomato'>Tomato</option>
+        <option value='Wheat'>Wheat</option>
+        <option value='Mint'>Mint</option>
+        <option value='Olive drab'>Olive drab</option>
+    </select>
+
+    <div class="calc">
+        <div class="screen">
+            <i class="fa fa-apple" style="position:absolute;left:5px;top:5px;font-size:large;"></i>
+            <p style="position:absolute;top:-13px;left:25px;color:white">By Vivek</p>
+            <div class="letters" id="screen"></div>
+        </div>
+        <div class="buttons">
+            <table>
+                <tr>
+                    <td class="gray">AC</td>
+                    <td class="gray">+/-</td>
+                    <td class="gray">%</td>
+                    <td class="sym">/</td>
+                </tr>
+                <tr>
+                    <td class="num">7</td>
+                    <td class="num">8</td>
+                    <td class="num">9</td>
+                    <td class="sym">*</td>
+                </tr>
+                <tr>
+                    <td class="num">4</td>
+                    <td class="num">5</td>
+                    <td class="num">6</td>
+                    <td class="sym">-</td>
+                </tr>
+                <tr>
+                    <td class="num">1</td>
+                    <td class="num">2</td>
+                    <td class="num">3</td>
+                    <td class="sym">+</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="num">0</td>
+                    <td class="num">.</td>
+                    <td class="sym">=</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<style type="text/css">
+    :root {
+        --my-color: red;
+    }
+
+    div.calc {
+        color: white;
+        font-weight: bold;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        position: absolute;
+        height: 410px;
+        border: 2px black solid;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 3px groove gray;
+        border-radius: 10px;
+        background-color: black;
+    }
+
+    .screen {
+        position: relative;
+        height: 30%;
+        width: 90%;
+    }
+
+    .buttons {
+        height: 60%;
+        width: 90%;
+    }
+
+    td {
+        text-align: center;
+        border: 1px black solid;
+        border-radius: 40%;
+        padding: 15px;
+
+    }
+
+    td:hover {
+        cursor: pointer;
+    }
+
+    .num {
+        background-color: #1c1c1c;
+    }
+
+    .num:hover {
+        box-shadow: 0px 2px 5px whitesmoke inset;
+    }
+
+    .sym {
+        /* background-color: #ff9500; */
+        /* background-color: aqua; */
+        background-color: var(--my-color);
+
+    }
+
+    .gray {
+        color: black;
+        background-color: #d4d4d2;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .gray:hover {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    }
+
+
+    div .letters {
+        color: white;
+        bottom: 7px;
+        right: 0px;
+        font-size: larger;
+        position: absolute;
+
+    }
+</style>
+
+<script>
+    // This is for Theme Selection 
+    const theme = document.getElementById("theme");
+    theme.addEventListener("change", (event) => {
+        selected = event.target.value;
+        console.log(`Selected Color : ${selected}`);
+        document.documentElement.style.setProperty("--my-color", selected);
+    })
+</script>
+<!-- For Calculator -->
+<script>
+    const screen = document.getElementById("screen");
+    const cells = document.querySelectorAll("td");
+    cells.forEach(function (cell) {
+        cell.addEventListener("click", function () {
+            // screen.innerText += cell.innerText;
+            sym = cell.innerText;
+            console.log("Cell Clicked", cell.innerText);
+            insert(sym);
+        });
+
+    });
+
+    function insert(sym) {
+        if (sym == "=") {
+            screen.innerText = eval(screen.innerText);
+        } else if (sym in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
+            screen.innerText += sym;
+        } else if (sym == "AC") {
+            screen.innerText = "";
+        } else if (sym == "+/-") {
+            screen.innerText = -1 * eval(screen.innerText);
+        } else if (sym == "%") {
+            screen.innerText = eval(screen.innerText) / 100;
+        } else {
+            screen.innerText += sym;
+        }
+
+    }
+</script>
