@@ -1,0 +1,222 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>
+            Tour Plan
+        </title>
+    </head>
+    <body>
+        <div id="container">
+            <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Reason</th>
+                    <th>Amount</th>
+                    <th>Remain</th>
+                    <th>Confirm</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        <hr><hr><br><hr><hr>
+            <div style="text-align:center;">
+                <select id="person_value">
+                    <option value="0">Arnold</option>
+                    <option value="1">Jonathon</option>
+                    <option value="2">Sumanth</option>
+                    <option value="3">Dora</option>
+                    <option value="4">Rakesh</option>
+                    <option value="5">Anil</option>
+                </select>
+            </div>
+            <table style="margin:0px auto">
+                <thead>
+                    <th colspan="3" id="record_name">Arnold</th>
+                </thead>
+                <thead>
+                    <th>Amount</th>
+                    <th>Reason</th>
+                    <th>Date and Time</th>
+                </thead>
+                <tbody id="record">
+                    
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
+
+
+<style>
+    *{
+        box-sizing: border-box;
+        margin:0px;
+        padding:0px;
+    }
+    #container{
+        /* position:relative; */
+        display:inline-block;
+
+        padding:3px;
+        margin-left:10%;
+        border:2px black solid;
+    }
+    input,button{
+        border:none;
+        text-align: center;
+    }
+    table,tbody,td,thead,tr,th{
+        text-align:center;
+        font-family:'Times New Roman', Times, serif;
+        border:1.5px black solid;
+        padding:3px;
+        border-collapse:collapse;
+    }
+    button{
+        width:100%;
+    }
+</style>
+<script>
+    persons = ["Arnold","Jonathon","Sumanth","Dora","Rakesh","Anil"];
+    Remain = document.querySelectorAll("#Remain");
+    // console.log(JSON.parse(localStorage.getItem("amount")))
+   
+
+    function sum(array){
+        let total = 0;
+        for(i=0;i<array.length;i++){
+            total -= parseFloat(array[i]);
+        }
+        return total;
+    }
+
+
+    if(!localStorage.getItem("amount"))
+    {
+        localStorage.setItem("amount",JSON.stringify([[],[],[],[],[],[]]));
+        localStorage.setItem("reason",JSON.stringify([[],[],[],[],[],[]]));
+        localStorage.setItem("time",JSON.stringify([[],[],[],[],[],[]])); 
+        
+        
+    }
+   
+
+    
+    
+    amount = JSON.parse(localStorage.getItem("amount"));
+    reason = JSON.parse(localStorage.getItem("reason"));
+    time = JSON.parse(localStorage.getItem("time"));
+
+    if(localStorage.getItem("temperory")){
+        console.log("if exec");
+        amount = JSON.parse(amount);
+        reason = JSON.parse(reason);
+        time = JSON.parse(time);
+        localStorage.setItem("temperory",true);
+        
+    }
+    else{
+        console.log("else exec")
+    }
+
+
+    // console.log(sum(amount[5]));
+    tbody = document.querySelector('tbody');
+    for(let i=0,j=0;i<persons.length;i++,j++){
+        let temp = parseFloat(sum(amount[i]));
+        tbody.innerHTML += `
+        <tr>
+        <td>${persons[i]}</td>
+        <td><input type="text" placeholder="Reason" id="Reason"></td>
+        <td><input type="number" placeholder="Enter Amount" id="Amount"></td>
+        <td id="Remain">${temp}</td>
+        <td><button onclick="confirm(event)" data-index = ${i}>Ok</button></td>
+        </tr>`
+    }
+    
+    
+    
+    
+
+
+    tbody.innerHTML+=`
+    <tr>
+    <td>Fill All</td>
+    <td><input type="text" placeholder="Reason" id="fillreason" value="Samosa"></td>
+    <td><input type="number" placeholder="Enter Amount" id="fillamount" value=20></td>
+    <td colspan="2"><button onclick="fillall()">Fill All</button></td>
+    </tr>
+    <tr>
+    <td colspan="3"><button onclick="clearall()">Clear All</button></td>
+    </tr>
+    `
+    Amount = document.querySelectorAll("#Amount");
+    Reason = document.querySelectorAll("#Reason");
+    Remain = document.querySelectorAll("#Remain");
+
+
+    
+
+
+
+
+    function fillall(){
+        for(i=0;i<Amount.length;i++){
+            Amount[i].value = fillamount.value;
+            Reason[i].value = fillreason.value;
+        }
+    }
+
+    function clearall(){
+        for(i=0;i<Amount.length;i++){
+            Amount[i].value = "";
+            Reason[i].value = "";
+        }
+    }
+
+    
+
+    function confirm(event){
+        index = event.target.dataset.index;
+        tr = event.target.parentElement.parentElement;
+        if(tr.children[2].firstChild.value!=""){
+            let amount_value = tr.children[2].firstChild.value;
+            let reason_value = tr.children[1].firstChild.value;
+            tr.children[2].firstChild.value = "";
+            tr.children[1].firstChild.value = "";
+
+            amount[index].push(amount_value);
+            reason[index].push(reason_value);
+            time[index].push(Date().split("GMT")[0]);
+            tr.children[3].innerText = sum(amount[index]);
+
+
+            localStorage.setItem("amount",JSON.stringify(amount));
+            localStorage.setItem("reason",JSON.stringify(reason));
+            localStorage.setItem("time",JSON.stringify(time));
+    
+        }
+    }
+
+
+    person_value = document.querySelector('#person_value');
+    person_value.addEventListener("change",function showrecord(){
+        tbody = document.querySelector("#record");
+        record_name = document.querySelector("#record_name");
+        index = person_value.value;
+        record_name.innerText = persons[index];
+        tbody.innerHTML = "";
+        for(i=0;i<amount[index].length;i++){
+            tbody.innerHTML+=`
+            <tr>
+                <td>${amount[index][i]}</td>
+                <td>${reason[index][i]}</td>
+                <td>${time[index][i]}</td>
+            </tr>
+            `
+        }
+    });
+
+    
+
+</script>
