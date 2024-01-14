@@ -1,0 +1,405 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>
+
+
+<!-- swalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Lato:wght@300;400&family=Lemon&family=Oswald:wght@300;400;500&family=Playfair+Display&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+
+
+<div class="container">
+    <div class='wrapper'>
+        <div class='app-title'>Type Perfector</div>
+        <div class='app-current-display'>
+            <span class="app-current"></span>
+        </div>
+        <div class='app-options'>
+            <div class="app-option" onclick="makeAppBody('Alphabets')">Alphabets</div>
+            <div class="app-option" onclick="makeAppBody('Capitals')">Capitals</div>
+            <div class="app-option" onclick="makeAppBody('Smalls')">Smalls</div>
+            <div class="app-option" onclick="makeAppBody('Numbers')">Numbers</div>
+            <div class="app-option" onclick="makeAppBody('Symbols')">Symbols</div>
+            <div class="app-option" onclick="makeAppBody('Mixed')">Mixed</div>
+
+            <div class="app-option" onclick="makeAppBody('LeftHand')">Left Hand</div>
+            <div class="app-option" onclick="makeAppBody('RightHand')">Right Hand</div>
+
+            <div class="app-option" onclick="makeAppBody('LeftHandWRight')">Left Hand With Right Shift</div>
+            <div class="app-option" onclick="makeAppBody('RightHandWLeft')">Right Hand With Left Shift</div>
+
+            <div class="app-option" onclick="makeAppBody('LeftHandWORight')">Left Hand WithOut Right Shift</div>
+            <div class="app-option" onclick="makeAppBody('RightHandWOLeft')">Right Hand WithOut Left Shift</div>
+
+            <input type="text" id="custom_text" value="Hello This is Vivek"/>
+            <div class="app-option" onclick="makeAppBody('custom')">Custom Text</div>
+        </div>
+        <div class="app-body"></div>
+        <div class="score-display">
+            <div class="wrongs-board">0 Wrongs</div>
+            <div class="score-board">0/20</div>
+            <div class="time-board">Time : 00 : 00 : 00 </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --col1: #FFDD95;
+        --col2: #FF9843;
+        --col3: #11235A;
+        --col4: #11009E;
+        --col5:black;
+        --col6:#525CEB;
+        --col7:#864AF9;
+        --col8:#FF004D;
+    }
+    body{
+        background-color: var(--col5);
+    }
+    .wrapper{
+        width: 700px;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        border-radius: 12px;
+        background-color: var(--col1);
+    }
+
+    
+    .app-current-display{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color:white;
+    }
+    .app-current{
+        text-align: center;
+        font-size: 55px;
+    }
+
+    .score-display{
+        display: flex;
+        color: white;
+        text-align: center;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top:3px;
+    }
+
+    .wrongs-board{
+        border-bottom-left-radius: 12px;
+        flex:1;
+        background-color: var(--col8);
+    }
+    .time-board{
+        flex:1;
+        background-color:var(--col7);
+        border-bottom-right-radius: 12px;
+    }
+    .score-board{
+        flex:1;
+        background-color:var(--col6);
+        border-right: 1px black solid;
+        border-left: 1px black solid;
+    }
+
+
+    .app-options{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding:5px 2px;
+    }
+
+    .app-option{
+        padding: 3px;
+        border-radius: 4px;
+        color:white;
+        background-color:var(--col3);
+        margin:4px;
+        cursor: pointer;
+    }
+
+    .app-title{
+        font-family: 'oswald', serif;
+        font-weight: 500;
+        font-size:30px;
+        height:50px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--col2);
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+
+    }
+    .app-body{
+        display: flex;
+        flex-wrap: wrap;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .app-body-letter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        padding: 4px;
+        margin: 3px;
+        border-radius:50%;
+        color:white;
+        background-color:var(--col4);
+    }
+
+</style>
+<script>
+    var randomchars;
+    var currIdx;
+    maxChars =60;
+    var appBodyLetters;
+    appCurrent = document.querySelector(".app-current");
+    var prevType; 
+
+
+    wrongs = 0;
+    var wrongsBoard;
+    var scoreBoard; 
+    var timeBoard;
+
+
+    var seconds = 0;
+    var minutes = 0;
+    var hours = 0;
+    var timeoutId;
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        currIdx = 0;
+        appBodyLetters = document.querySelectorAll(".app-body-letter");
+        document.addEventListener("keydown", function(event) {
+            const pressedKey = event.key;
+            if(pressedKey == "Shift")return;
+            if (pressedKey === randomchars[currIdx]) {
+                appBodyLetters[currIdx].style.backgroundColor = "red";
+                currIdx++;
+                scoreBoard.textContent = `${currIdx}/${maxChars}`;
+                if (currIdx === maxChars) {
+                    clearTimeout(timeoutId);
+                    totalSeconds = seconds+minutes*60+hours*60*60
+                    // const totalMinutes = totalSeconds / 60;
+
+                    typingSpeed = parseFloat((maxChars / totalSeconds).toFixed(3));
+                    accuracyPercentage = Math.round((maxChars / (maxChars+wrongs)) * 100);
+
+
+                Swal.fire({
+                    title: "You have completed " + maxChars,
+                    html: `Typing Speed: ${typingSpeed} characters per second <br>Accuracy: ${accuracyPercentage}%`,
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "Restart",
+                    cancelButtonText: "Cancel",
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        makeAppBody(prevType);
+                        runTimer();
+                    }
+                });
+
+                } else {
+                    appCurrent.textContent = randomchars[currIdx];
+                }
+            } else {
+
+                wrongs++;
+                wrongsBoard.textContent = `${wrongs} Wrongs`;
+
+
+                appCurrent.classList.add('animate__animated', 'animate__shakeX');
+                appCurrent.style.color = "red";
+                appCurrent.addEventListener('animationend', () => {
+                    appCurrent.classList.remove("animate__animated", "animate__shakeX", "animate__delay-3s");
+                    appCurrent.style.color = "black";
+                });
+            }
+
+        });
+    });
+
+    const systemKeys = [
+        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+        'ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft',
+        'AudioVolumeMute', 'AudioVolumeDown', 'AudioVolumeUp', 'Insert', 'Delete'
+    ];
+
+
+    // function for generateChars
+    function generateChars(type = 'Capitals', length = maxChars) {
+        let characters = '';
+        switch (type.toLowerCase()) {
+            case "alphabets": 
+                characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                break;
+            case 'capitals':
+                characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+            case 'smalls':
+                characters = 'abcdefghijklmnopqrstuvwxyz';
+                break;
+            case 'numbers':
+                characters = '0123456789';
+                break;
+            case 'symbols':
+                characters = '`~!@#$%^&*()_-+={[}]|:;"\'<,>.?/';
+                break;
+            case 'system':
+                characters = systemKeys
+                break;
+            case 'mixed':
+                characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*()_-+={[}]|:;"\'<,>.?/';
+                break;
+            case "lefthand": 
+                characters = "AQZWSXEDCRFVTGBqazwsxedcrfv123!@#";
+                break;
+            case "righthand": 
+                characters = "^YHN6yhn&UJM7ujm*IK<8ik,(OL>9ol.)P:?0p;/_-+={[]}|'\\\"";
+                break;
+
+
+            case "lefthandwright": 
+                characters = "!QAZ@WSX#EDC$RFV%TGB";
+                break;
+            case "righthandwleft": 
+                characters = "^YHN&UJM*IK<(OL>)P:?_{\"+}|";
+                break;
+            case "lefthandworight": 
+                characters = "1qaz2wsx3edc4rfv5tgb";
+                break;
+            case "righthandwoleft": 
+                characters = "6yhn7ujm8ik,9ol.0p;/-['=]\\";
+                break;
+            
+            case "custom":
+                customTextInput = document.getElementById('custom_text');
+                customTextValue = customTextInput.value.trim();
+                if (customTextValue.length === 0) {
+                    characters = "ABCDEFGHIJKLMNOPQRSTVUWXYZ";
+                } else {
+                    characters = customTextValue;
+                }
+                break;
+            default:
+                console.error('Invalid character type.');
+                return;
+        }
+        return generateRandomString(characters, length);
+    }
+
+    // helper function for generateChars
+    function generateRandomString(characters, length) {
+        let result = [];
+        const charCount = characters.length;
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charCount);
+            result.push(characters[randomIndex]);
+        }
+        return result;
+    }
+
+    function makeAppBody(chars = "Capitals") {
+        prevType = chars; //for refresh or restart;
+        const appBody = document.querySelector(".app-body");
+
+        randomchars = generateChars(chars, maxChars);
+        appBody.textContent = "";
+
+        for (const char of randomchars) {
+            const letterDiv = document.createElement("div");
+            letterDiv.classList.add("app-body-letter");
+            letterDiv.textContent = char;
+            appBody.appendChild(letterDiv);
+        }
+        appCurrent.textContent = randomchars[0];
+        currIdx = 0;
+        appBodyLetters = document.querySelectorAll(".app-body-letter");
+
+
+        
+        // For score Board
+        wrongsBoard = document.querySelector('.wrongs-board');
+        scoreBoard = document.querySelector('.score-board');
+        timeBoard = document.querySelector('.time-board');
+
+        wrongs = 0;
+
+        wrongsBoard.textContent = "0 Wrongs";
+        scoreBoard.textContent = `${currIdx}/${maxChars}`;
+        timeBoard.textContent = "Time:00:00:00";
+
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
+    }
+
+
+
+
+
+    function runTimer(){
+        function updateStopwatch() {
+        seconds++;
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes === 60) {
+            minutes = 0;
+            hours++;
+            }
+        }
+
+        const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        timeBoard.textContent = `Time: ${formattedTime}`;
+         timeoutId  = setTimeout(updateStopwatch, 1000); // Update every 1000ms (1 second)
+        }
+
+        function pad(num) {
+        return num < 10 ? `0${num}` : num;
+        }
+
+        // Start the stopwatch
+        updateStopwatch();
+    }
+
+    makeAppBody();
+    runTimer();
+
+
+
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+
+</script>
