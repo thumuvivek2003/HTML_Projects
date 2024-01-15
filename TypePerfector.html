@@ -228,9 +228,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
                 if (currIdx === maxChars) {
                     clearTimeout(timeoutId);
                     totalSeconds = seconds+minutes*60+hours*60*60
-                    // const totalMinutes = totalSeconds / 60;
+                    totalMinutes = totalSeconds / 60;
 
-                    typingSpeed = parseFloat((maxChars / totalSeconds).toFixed(3));
+                    typingSpeed = parseFloat((maxChars / totalMinutes).toFixed(3));
                     accuracyPercentage = Math.round((maxChars / (maxChars+wrongs)) * 100);
 
 
@@ -246,7 +246,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
                     timeTakenText += `${seconds} Second${seconds > 1 ? 's' : ''}`;
 
                     swalContent = `Time Taken: ${timeTakenText} <br>
-                        Typing Speed: ${typingSpeed} Characters Per Second <br>
+                        Typing Speed: ${typingSpeed} Characters Per Minute <br>
                         ${wrongsText} , Accuracy: ${accuracyPercentage}%`;
                     Swal.fire({
                         title: "You have completed ",
