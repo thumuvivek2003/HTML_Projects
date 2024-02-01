@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.68, maximum-scale=1.0, user-scalable=no">
+    <title>Tables Improver App</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Popper.js, required for Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+     <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      />
+      
+      <!-- Add this script tag to include SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!--fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<style>
+
+    :root {
+        --color1: #E6F8F9;
+        --color2: #A0C49D;
+        --color3: #F7FFE5;
+        --color4: #fff;
+        --color5: #DCFFB7;
+        --color6: #3652AD;
+        --color7:#FFF591;
+        --color8: #243A73;
+        /*--color5: #9B59B6;*/
+    }
+    
+    
+    body{
+        background-color:var(--color1);
+    }
+    
+    #title{
+        font-family: 'Oswald', sans-serif;
+        font-weight:400;
+        font-size:45px;
+        margin-bottom:20px;
+    }
+    
+    .table{
+        
+        padding:12px;
+        border-radius:10px;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        background-color:var(--color2);
+    }
+    
+    
+    .table-line{
+        display:flex;
+        justify-content:space-evenly;
+        align-items:center;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+        border-radius:4px;
+        font-size:22px;
+        margin-top:5px;
+        margin-bottom:5px;
+        text-align:center;
+        padding:2px;
+        background-color:var(--color3);
+    }
+    .user_input{
+        outline:none;
+        width:120px;
+        text-align:center;
+        background-color:var(--color4);
+        color:white;
+        border-radius:4px;
+        border-radius:8px;
+    }
+    .user_input:focus {
+        background-color:var(--color5);
+        outline:none;
+        color:black;
+        border-radius:8px;
+    }
+    .completed{
+                background-color:var(--color6);
+    }
+    .current{
+        background-color:#EF5353;
+        background-color:var(--color3);
+    }
+    #pageFooter {
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        background-color:black;
+        color:white;
+        text-align: center;
+    }
+    .last_digits{
+        display:flex;
+
+    }
+    .last_digit{
+        border:1px black ;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border-radius:50%;
+        padding:5px;
+        width:35px;
+        height:35px;
+        border:1px black solid;
+        margin-left:2px;
+        margin-right:2px;
+        cursor:pointer;
+        
+    }
+    
+    .last_digit_selected{
+        border:1px black ;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border-radius:50%;
+        padding:5px;
+        width:35px;
+        height:35px;
+        border:1px black solid;
+        margin-left:2px;
+        margin-right:2px;
+        cursor:pointer;
+        background-color:black;
+        color:white;
+    }
+    
+
+</style>
+<body>
+    <div class='container'>
+        <h1 class='text-center mt-2' id='title'>Tables Improver (1-100)</h1> 
+        <div class='last_digits'>
+            <h4>Last Digit &nbsp;</h4>
+            <div class='last_digit_selected'>0</div>
+            <div class='last_digit'>1</div>
+            <div class='last_digit'>2</div>
+            <div class='last_digit'>3</div>
+            <div class='last_digit'>4</div>
+            <div class='last_digit'>5</div>
+            <div class='last_digit'>6</div>
+            <div class='last_digit'>7</div>
+            <div class='last_digit'>8</div>
+            <div class='last_digit'>9</div>
+        </div>
+    </div>
+    <hr style='height:4px'/>
+    
+    <div id='train_body'>
+        
+    </div>
+    
+    <footer id="pageFooter">
+        <p id="copyrightText"></p>
+    </footer>
+</body>
+
+
+<script>
+
+var userInputList ;
+var current  = 0;
+
+
+
+
+
+function generateTables(val) {
+    var trainBody = document.getElementById('train_body');
+    trainBody.innerHTML = "";
+    
+    
+    // Create a container div
+    var containerDiv = document.createElement('div');
+    containerDiv.className = 'container mt-3';
+
+    // Create a row div
+    var rowDiv = document.createElement('div');
+    rowDiv.className = 'row';
+
+    // Append the row div to the container div
+    containerDiv.appendChild(rowDiv);
+
+    // Loop to generate columns
+    for (var j = 0; j < 10; j++) {
+        // Create a column div
+        var colDiv = document.createElement('div');
+        colDiv.className = 'col-6 col-md-4 col-lg-3';
+
+        // Call the generateTable function with the calculated value and column div
+        generateTable(j * 10 + val, colDiv);
+
+        // Append the column div to the row div
+        rowDiv.appendChild(colDiv);
+    }
+
+    // Append the container div to the body
+    train_body.appendChild(containerDiv);
+}
+
+
+
+
+    function generateTable(value, parentDiv) {
+        var tableDiv = document.createElement('div');
+        tableDiv.className = 'table';
+        for (var i = 1; i <= 10; i++) {
+            var lineDiv = document.createElement('div');
+            lineDiv.className = 'table-line';
+            var questionDiv = document.createElement('div');
+            questionDiv.className = 'table-line-question';
+            questionDiv.textContent = value + ' X ' + i + ' = ';
+            var answerDiv = document.createElement('div');
+            answerDiv.className = 'table-line-answer';
+            var inputElement = document.createElement('input');
+            inputElement.setAttribute('data-valid_answer', value*i);
+            inputElement.type = 'number';
+            inputElement.className = 'user_input';
+            // inputElement.value = '1234567';
+            inputElement.disabled = true;
+            answerDiv.appendChild(inputElement);
+            lineDiv.appendChild(questionDiv);
+            lineDiv.appendChild(answerDiv);
+            tableDiv.appendChild(lineDiv);
+        }
+        parentDiv.appendChild(tableDiv);
+        // document.body.appendChild(tableDiv);
+    }
+    
+    
+    
+
+
+
+
+
+
+
+// Function to check if it's a mistake
+function front_ok(currentInput,validAnswer) {
+    if (currentInput !== validAnswer.substring(0, currentInput.length)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+
+
+// Function to move to the next input field
+function moveNext() {
+    // Disable the current input field
+    userInputList[current].disabled = true;
+    userInputList[current].classList.remove("current");
+    userInputList[current].classList.add("completed");
+
+    // Move to the next input field if available
+    if (current < userInputList.length - 1) {
+        current++;
+        userInputList[current].classList.add("current");
+        userInputList[current].disabled = false;
+        userInputList[current].focus();
+    }
+}
+
+
+ // Listen for keyboard input
+document.addEventListener('input', function(event) {
+    var currentInput = userInputList[current].value;
+    
+    if (!/^[1234567890]+$/.test(currentInput)) {
+        return;
+    }
+    
+    var validAnswer = userInputList[current].getAttribute('data-valid_answer');
+    
+    if (currentInput.length == 0) {
+        // handle green color
+    } else if (currentInput === validAnswer) {
+        moveNext();
+    } else if (front_ok(currentInput, validAnswer)) {
+        // handle green color
+    } else {
+        userInputList[current].classList.add('animate__animated', 'animate__shakeX');
+        setTimeout(function() {
+            userInputList[current].classList.remove('animate__animated', 'animate__shakeX');
+        }, 500);
+    }
+});
+
+
+
+
+
+
+function main(value){
+    generateTables(value);
+    // Assuming you have an array of user input elements
+    userInputList = document.querySelectorAll('.user_input');
+    current = 0;
+    
+    // Set current to 0 and enable/focus the 0th element
+    current = 0;
+    userInputList[current].disabled = false;
+    userInputList[current].focus();
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var lastDigits = document.querySelectorAll('.last_digit');
+
+    lastDigits.forEach(function(element) {
+        element.addEventListener('click', function() {
+            // Show SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to switch to another table?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, switch!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User clicked 'Yes', execute main function with the clicked digit
+                    
+                    // Remove last_digit_selected class from all elements
+                    var selectedElements = document.querySelectorAll('.last_digit_selected');
+                    selectedElements.forEach(function(selectedElement) {
+                        selectedElement.classList.remove('last_digit_selected');
+                        selectedElement.classList.add('last_digit');
+                    });
+        
+                    // Add last_digit_selected class to the clicked element
+                    element.classList.remove('last_digit');
+                    element.classList.add('last_digit_selected');
+                    
+                    
+                    
+                    var digit = parseInt(element.textContent, 10);
+                    main(digit);
+                }
+            });
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    main(10);
+    
+    
+    
+    //set footer
+    var currentYear = new Date().getFullYear();
+    var designerName = "VIVEK THUMU";
+    var copyrightText = document.getElementById('copyrightText');
+    copyrightText.textContent = `Designed by ${designerName} © ${currentYear}`;
+    
+    
+    
+});
+</script>
+</html>
