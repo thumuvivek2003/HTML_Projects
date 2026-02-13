@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS Position Interactive Demo</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  margin:0;
+  padding:20px;
+}
+
+h2{
+  margin-top:0;
+}
+
+.controls{
+  margin-bottom:15px;
+}
+
+select{
+  padding:6px;
+  font-size:16px;
+}
+
+.explain{
+  margin-top:10px;
+  padding:10px;
+  border:1px solid #ccc;
+  background:#f9f9f9;
+  min-height:60px;
+}
+
+.container{
+  margin-top:20px;
+  border:3px solid #444;
+  height:300px;
+  overflow:auto; /* important for sticky */
+  padding:10px;
+  position:relative; /* for absolute demo */
+}
+
+.spacer{
+  height:600px;
+  background:linear-gradient(#eee, #ddd);
+  margin:10px 0;
+}
+
+.box{
+  width:150px;
+  height:70px;
+  background:#ffd54f;
+  border:3px solid #333;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  transition:all 0.3s ease;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Interactive CSS Position Demo</h2>
+
+<div class="controls">
+  <label>Select position: </label>
+  <select id="positionSelect">
+    <option value="static">static</option>
+    <option value="relative">relative</option>
+    <option value="absolute">absolute</option>
+    <option value="fixed">fixed</option>
+    <option value="sticky">sticky</option>
+  </select>
+</div>
+
+<div class="explain" id="explainBox">
+</div>
+
+<div class="container">
+  <div>Top of container</div>
+  <div class="spacer"></div>
+
+  <div class="box" id="demoBox">
+    BOX
+  </div>
+
+  <div class="spacer"></div>
+  <div>Bottom of container</div>
+</div>
+
+
+<script>
+const select = document.getElementById("positionSelect");
+const box = document.getElementById("demoBox");
+const explain = document.getElementById("explainBox");
+
+function updatePosition(type){
+
+  // reset everything
+  box.style.position = type;
+  box.style.top = "";
+  box.style.left = "";
+  box.style.right = "";
+  box.style.bottom = "";
+
+  if(type === "static"){
+    explain.innerHTML = 
+    "<b>static:</b> Default position. Element stays in normal flow. Top/left do NOT work.";
+  }
+
+  if(type === "relative"){
+    box.style.top = "20px";
+    box.style.left = "20px";
+    explain.innerHTML = 
+    "<b>relative:</b> Stays in normal flow but moves visually. Space is still reserved.";
+  }
+
+  if(type === "absolute"){
+    box.style.top = "20px";
+    box.style.right = "20px";
+    explain.innerHTML = 
+    "<b>absolute:</b> Removed from normal flow. Positioned relative to nearest positioned parent (container).";
+  }
+
+  if(type === "fixed"){
+    box.style.top = "20px";
+    box.style.right = "20px";
+    explain.innerHTML = 
+    "<b>fixed:</b> Removed from flow. Positioned relative to viewport. Does NOT move when page scrolls.";
+  }
+
+  if(type === "sticky"){
+    box.style.top = "0px";
+    explain.innerHTML = 
+    "<b>sticky:</b> Acts like relative until scroll reaches top value, then sticks inside scroll container.";
+  }
+}
+
+select.addEventListener("change", function(){
+  updatePosition(this.value);
+});
+
+// default load
+updatePosition("static");
+</script>
+
+</body>
+</html>
